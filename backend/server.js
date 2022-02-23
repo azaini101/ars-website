@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 const router = express.Router();
 const Donation = require("./model/donationModel")
-
+const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 mongoose.connect(`mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.sv3hk.mongodb.net/${process.env.DBNAME}`);
@@ -23,6 +23,6 @@ app.post('/submitForm', function (req, res) {
   console.log(req.body)
 })
 
-app.listen(5000, function () {
-   console.log("Example app listening at http://localhost:5000")
+app.listen(PORT, function () {
+   console.log(`Example app listening ON ${PORT}`)
 })
