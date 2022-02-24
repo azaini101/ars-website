@@ -5,7 +5,7 @@ export default function App() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = async(data) => {
     console.log(data)
-    const response = await fetch("http://localhost:5000/submitForm", {
+    const response = await fetch("https://vast-woodland-44303.herokuapp.com/submitForm", {
       method: 'POST', // *GET, POST, PUT, DELETE, etc
       headers: {
         "Content-Type": "application/json"
