@@ -1,6 +1,5 @@
-import { Container, Heading } from "@chakra-ui/react";
 import React, { useState } from "react";
-
+import { Container, Heading } from "@chakra-ui/react";
 import DonationsTable from "./DonationsTable";
 import LoginForm from "./LoginForm";
 
@@ -9,8 +8,10 @@ const Dashboard = () => {
   const [loggedInSuccessfully, setLoggedInSuccessfully] = useState(false);
 
   return (
-    <Container maxW={"container.md"} boxShadow={"dark-lg"} p={8}>
-      <Heading>Dashboard</Heading>
+    <>
+      <Heading textAlign={"center"} pt={6}>
+        Dashboard
+      </Heading>
 
       <br />
 
@@ -22,7 +23,7 @@ const Dashboard = () => {
           setLoggedInSuccessfully={setLoggedInSuccessfully}
         />
       )}
-    </Container>
+    </>
   );
 };
 

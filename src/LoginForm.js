@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, FormLabel, Input } from "@chakra-ui/react";
+import { Button, Container, FormLabel, Input } from "@chakra-ui/react";
 import { Buffer } from "buffer";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -29,7 +29,7 @@ const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
   };
 
   return (
-    <Box>
+    <Container maxW={"container.md"} boxShadow={"dark-lg"} p={8}>
       <FormLabel htmlFor="username">Username</FormLabel>
       <Input
         value={username}
@@ -56,7 +56,7 @@ const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
       <br />
 
       <Button onClick={getDonations}>Login</Button>
-    </Box>
+    </Container>
   );
 };
 
