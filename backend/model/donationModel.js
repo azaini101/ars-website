@@ -5,6 +5,9 @@ const donationsSchema = {
     "lastName": String,
     "email": String,
     "phone": String,
+    "emergencyfirstName": String,
+    "emergencylastName": String,
+    "emergencyphone": String,
     "service": String,
     "description": String
 }
