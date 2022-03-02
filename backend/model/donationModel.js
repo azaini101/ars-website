@@ -8,7 +8,8 @@ const donationsSchema = {
   emergencyFirstName: String,
   emergencyLastName: String,
   emergencyPhone: String,
-  service: String,
+  services: Array,
+  languages: Array,
   description: String,
 };
 
