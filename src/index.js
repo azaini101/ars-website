@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import HookForm from "./HookForm";
 import Footer from "./Footer";
@@ -17,12 +17,12 @@ ReactDOM.render(
   <>
     <ChakraProvider theme={theme}>
       <CSSReset />
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/mern" element={<HookForm />} />
           <Route path="/mern/dashboard" element={<Dashboard />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
       <Footer />
     </ChakraProvider>
   </>,
