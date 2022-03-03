@@ -171,7 +171,7 @@ export default function HookForm() {
         <Button
           colorScheme="teal"
           isLoading={isSubmitting}
-          isDisabled={services.length === 0 && times.length === 0}
+          isDisabled={services.length === 0 || times.length === 0}
           type="submit"
         >
           Submit
