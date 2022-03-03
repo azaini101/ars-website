@@ -11,13 +11,14 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
-import { languageOptions, serviceOptions } from "./docs/data";
+import { languageOptions, serviceOptions, timeOptions } from "./docs/data";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function HookForm() {
   const [services, setServices] = useState([]);
   const [languages, setLanguages] = useState([]);
+  const [times, setTimes] = useState([]);
 
   const {
     register,
@@ -30,6 +31,7 @@ export default function HookForm() {
       ...data,
       services: services.map((service) => service.value),
       languages: languages.map((language) => language.value),
+      times: times.map((language) => language.value),
     };
 
     const response = await fetch(`${BACKEND_URL}/submitForm`, {
@@ -54,112 +56,122 @@ export default function HookForm() {
       <br />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl>
-          <Stack spacing={6}>
-            <Stack>
-              <Heading size="md">Volunteer Information</Heading>
+        <FormControl isRequired>
+          <Stack spacing={4}>
+            <Heading size="md">Volunteer Information</Heading>
 
-              <FormLabel htmlFor="firstName">First Name</FormLabel>
-              <Input
-                id="firstName"
-                placeholder="First Name"
-                {...register("firstName")}
-              />
+            <FormLabel htmlFor="firstName">First Name</FormLabel>
+            <Input
+              id="firstName"
+              placeholder="First Name"
+              {...register("firstName")}
+            />
 
-              <FormLabel htmlFor="lastName">Last Name</FormLabel>
-              <Input
-                id="lastName"
-                placeholder="Last Name"
-                {...register("lastName")}
-              />
+            <FormLabel htmlFor="lastName">Last Name</FormLabel>
+            <Input
+              id="lastName"
+              placeholder="Last Name"
+              {...register("lastName")}
+            />
 
-              <FormLabel htmlFor="email">Email Address</FormLabel>
-              <Input
-                id="email"
-                type="email"
-                placeholder="email@address.com"
-                {...register("email")}
-              />
+            <FormLabel htmlFor="email">Email Address</FormLabel>
+            <Input
+              id="email"
+              type="email"
+              placeholder="email@address.com"
+              {...register("email")}
+            />
 
-              <FormLabel htmlFor="phone">Phone Number</FormLabel>
-              <Input
-                id="phone"
-                placeholder="+1 555 555 5555"
-                {...register("phone")}
-              />
+            <FormLabel htmlFor="phone">Phone Number</FormLabel>
+            <Input
+              id="phone"
+              placeholder="+1 555 555 5555"
+              {...register("phone")}
+            />
 
-              <FormLabel htmlFor="languages" isRequired={false}>
-                Additional languages volunteer can speak fluently
-              </FormLabel>
-              <Select
-                onChange={(e) => {
-                  setLanguages(e);
-                }}
-                isMulti
-                id="languages"
-                options={languageOptions}
-                closeMenuOnSelect={false}
-              />
-            </Stack>
+            <Heading size="md">Emergency Contact Information</Heading>
 
-            <Stack>
-              <Heading size="md">Emergency Contact Information</Heading>
+            <FormLabel htmlFor="emergencyFirstName">First Name</FormLabel>
+            <Input
+              id="emergencyFirstName"
+              placeholder="First Name"
+              {...register("emergencyFirstName")}
+            />
 
-              <FormLabel htmlFor="emergencyFirstName">First Name</FormLabel>
-              <Input
-                id="emergencyFirstName"
-                placeholder="First Name"
-                {...register("emergencyFirstName")}
-              />
+            <FormLabel htmlFor="emergencyLastName">Last Name</FormLabel>
+            <Input
+              id="emergencyLastName"
+              placeholder="Last Name"
+              {...register("emergencyLastName")}
+            />
 
-              <FormLabel htmlFor="emergencyLastName">Last Name</FormLabel>
-              <Input
-                id="emergencyLastName"
-                placeholder="Last Name"
-                {...register("emergencyLastName")}
-              />
+            <FormLabel htmlFor="emergencyPhone">
+              Emergency Phone Number
+            </FormLabel>
+            <Input
+              id="emergencyPhone"
+              placeholder="+1 555 555 5555"
+              {...register("emergencyPhone")}
+            />
 
-              <FormLabel htmlFor="emergencyPhone">
-                Emergency Phone Number
-              </FormLabel>
-              <Input
-                id="emergencyPhone"
-                placeholder="+1 555 555 5555"
-                {...register("emergencyPhone")}
-              />
-            </Stack>
+            <Heading size="md">How Can You Help?</Heading>
+            <FormLabel htmlFor="services">In which categories are you interested in being a volunteer?  Select all that apply:</FormLabel>
+            <Select
+              onChange={(e) => {
+                setServices(e);
+              }}
+              isMulti
+              id="services"
+              placeholder="Select services"
+              options={serviceOptions}
+              closeMenuOnSelect={false}
+              hasStickyGroupHeaders={true}
+            />
 
-            <Stack>
-              <FormLabel htmlFor="services">Service(s)</FormLabel>
-              <Select
-                onChange={(e) => {
-                  setServices(e);
-                }}
-                isMulti
-                id="services"
-                placeholder="Select services"
-                options={serviceOptions}
-                closeMenuOnSelect={false}
-              />
+            <FormLabel htmlFor="times">
+              What times are you available? Select all that apply:
+            </FormLabel>
+            <Select
+              onChange={(e) => {
+                setTimes(e);
+              }}
+              isMulti
+              id="times"
+              options={timeOptions}
+              closeMenuOnSelect={false}
+            />
 
-              <FormLabel htmlFor="description">
-                Provide more information about your services
-              </FormLabel>
-              <Textarea
-                id="description"
-                placeholder="We thank you in advance for your contribution!"
-                {...register("description")}
-              />
-            </Stack>
+            <FormLabel htmlFor="languages" requiredIndicator={false}>
+              What languages do you speak fluently and could assist clients in? Select all that apply:
+            </FormLabel>
+            <Select
+              onChange={(e) => {
+                setLanguages(e);
+              }}
+              isMulti
+              id="languages"
+              options={languageOptions}
+              closeMenuOnSelect={false}
+            />
+
+
           </Stack>
         </FormControl>
-
         <br />
-
+        <FormLabel htmlFor="note">
+          Anything else you want us to know?
+        </FormLabel>
+        <Textarea
+          id="note"
+          placeholder="We thank you in advance for your contribution!"
+          {...register("note")}
+        />
+        <br />
+        <br />
         <Button
           colorScheme="teal"
           isLoading={isSubmitting}
-          isDisabled={services.length === 0}
+          isDisabled={services.length === 0 && times.length === 0}
           type="submit"
         >
           Submit

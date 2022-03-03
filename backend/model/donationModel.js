@@ -9,8 +9,9 @@ const donationsSchema = {
   emergencyLastName: String,
   emergencyPhone: String,
   services: Array,
+  times: Array,
   languages: Array,
-  description: String,
+  notes: String,
 };
 
 const Donation = mongoose.model("Donation", donationsSchema);
