@@ -8,9 +8,9 @@ const donationsSchema = {
   emergencyFirstName: String,
   emergencyLastName: String,
   emergencyPhone: String,
-  services: Array,
-  times: Array,
-  languages: Array,
+  services: String,
+  times: String,
+  languages: String,
   notes: String,
 };
 

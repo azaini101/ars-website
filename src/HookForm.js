@@ -29,9 +29,9 @@ export default function HookForm() {
   const onSubmit = async (data) => {
     data = {
       ...data,
-      services: services.map((service) => service.value),
-      languages: languages.map((language) => language.value),
-      times: times.map((language) => language.value),
+      services: services.map((service) => service.value).join('; '),
+      languages: languages.map((language) => language.value).join('; '),
+      times: times.map((time) => time.value).join('; '),
     };
 
     const response = await fetch(`${BACKEND_URL}/submitForm`, {
@@ -162,9 +162,9 @@ export default function HookForm() {
           Anything else you want us to know?
         </FormLabel>
         <Textarea
-          id="note"
+          id="notes"
           placeholder="We thank you in advance for your contribution!"
-          {...register("note")}
+          {...register("notes")}
         />
         <br />
         <br />

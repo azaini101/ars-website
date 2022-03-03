@@ -1,8 +1,6 @@
 const housingOptions = [
   "Housing Assistance"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
 
 const employmentOptions = [
   "Computer Literacy",
@@ -13,77 +11,63 @@ const employmentOptions = [
   "Mock Job Interviews",
   "Career Readiness Skills",
   "English Tutoring"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
 
 const englishOptions = [
   "Interpretation",
   "English Tutoring"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
 
 const foodOptions = [
   "Food Bank",
-  "Grocery Shopping"].map((x) => {
-  return { value: x, label: x };
-});
+  "Grocery Shopping"]
 
 const medicalOptions = [
   "Insurance",
   "Mental Health",
   "Medical Bills",
   "Vaccine"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
 
 const legalOptions = [
   "Legal Support - AMBA"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
 
 const educationOptions = [
   "School Enrollment",
   "Headstart",
   "Tutoring/ESL",
   "School Supplies"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
 
 const enrollmentOptions = [
   "SNAP",
   "Medicaid",
   "Social Security Benefits",
   "MVA Appointments"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
 
 const transportationOptions = [
   "NeighborRide",
   "Public Transportation",
   "Welcome Visit",
   "General Support - Items Needed"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
 
 const generalOptions = [
   "Welcome Visit",
   "Items Needed"
-].map((x) => {
-  return { value: x, label: x };
-});
+]
   
-
+const combinedOptions = housingOptions.concat(employmentOptions, englishOptions, foodOptions, medicalOptions, legalOptions, educationOptions, enrollmentOptions, transportationOptions, generalOptions).map(
+  (x) => {
+    return { id: x, label: x };
+  }
+);
 
 const languageOptions = ["Urdu", "Pashto", "Dari", "Farsi"].map(
   (x) => {
-    return { value: x, label: x };
+    return {id: x, value: x, label: x };
   }
 );
 
@@ -96,52 +80,72 @@ const timeOptions = [
   "One-Time Event"
   ].map(
   (x) => {
-    return { value: x, label: x };
+    return { id: x, value: x, label: x };
   }
 );
 
 const serviceOptions = [
   {
     label: "Housing",
-    options: housingOptions,
+    options: housingOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "Employment/Mentorship Assistance",
-    options: employmentOptions
+    options: employmentOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "English/Translation",
-    options: englishOptions
+    options: englishOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "Food Assistance",
-    options: foodOptions
+    options: foodOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "Medical Support - IMI",
-    options: medicalOptions
+    options: medicalOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "Legal Support - AMBA",
-    options: legalOptions
+    options: legalOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "Education",
-    options: educationOptions
+    options: educationOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "Enrollment in Services",
-    options: enrollmentOptions
+    options: enrollmentOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "Transportation",
-    options: transportationOptions
+    options: transportationOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
   {
     label: "General Support",
-    options: generalOptions
+    options: generalOptions.map((x) => {
+      return { value: x, label: x };
+    }),
   },
 
 ];
 
-export { serviceOptions, languageOptions, timeOptions };
+export {combinedOptions, serviceOptions, languageOptions, timeOptions };
