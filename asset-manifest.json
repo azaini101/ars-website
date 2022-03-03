@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/mern/static/js/main.7d9b40ac.js",
+    "main.js": "/mern/static/js/main.41a5c527.js",
     "index.html": "/mern/index.html",
-    "main.7d9b40ac.js.map": "/mern/static/js/main.7d9b40ac.js.map"
+    "main.41a5c527.js.map": "/mern/static/js/main.41a5c527.js.map"
   },
   "entrypoints": [
-    "static/js/main.7d9b40ac.js"
+    "static/js/main.41a5c527.js"
   ]
 }
