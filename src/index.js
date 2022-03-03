@@ -19,8 +19,8 @@ ReactDOM.render(
       <CSSReset />
       <HashRouter>
         <Routes>
-          <Route path="/mern" element={<HookForm />} />
-          <Route path="/mern/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<HookForm />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </HashRouter>
       <Footer />
