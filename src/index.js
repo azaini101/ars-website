@@ -19,7 +19,7 @@ ReactDOM.render(
       <CSSReset />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HookForm />} />
+          <Route path="/mern" element={<HookForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
