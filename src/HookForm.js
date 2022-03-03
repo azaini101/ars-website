@@ -142,7 +142,7 @@ export default function HookForm() {
             />
 
             <FormLabel htmlFor="languages" requiredIndicator={false}>
-              What languages do you speak fluently and could assist clients in? Select all that apply:
+              What languages do you speak fluently and could assist in translation? Select all that apply:
             </FormLabel>
             <Select
               onChange={(e) => {
