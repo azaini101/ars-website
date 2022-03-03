@@ -51,7 +51,7 @@ export default function HookForm() {
 
   return (
     <Container maxW={"container.md"} boxShadow={"dark-lg"} p={8}>
-      <Heading>Idara Jaferia and Afghan SIV Support</Heading>
+      <Heading>Idara Jaferia and Afghan Refugee Support</Heading>
 
       <br />
 
