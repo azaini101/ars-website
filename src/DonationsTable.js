@@ -27,21 +27,21 @@ const SEPARATOR = ',';
 
 const columns = [
   { name: "_id", defaultVisible: false},
-  { name: "firstName", defaultWidth: 250},
-  { name: "lastName", defaultWidth: 250},
-  { name: "email", defaultWidth: 250},
-  { name: "phone", defaultWidth: 250},
-  { name: "emergencyFirstName", defaultWidth: 250},
-  { name: "emergencyLastName", defaultWidth: 250},
-  { name: "emergencyPhone", defaultWidth: 250},
-  { name: "services", defaultWidth: 500},
-  { name: "times", defaultWidth: 500},
-  { name: "languages", defaultWidth: 500},
-  { name: "notes", defaultWidth: 250},
+  { name: "firstName", defaultWidth: 25, header:"First Name"},
+  { name: "lastName", defaultWidth: 250, header:"Last Name"},
+  { name: "email", defaultWidth: 250, header:"Email"},
+  { name: "phone", defaultWidth: 250, header:"Phone"},
+  { name: "emergencyFirstName", defaultWidth: 250, header: "Emergency First Name"},
+  { name: "emergencyLastName", defaultWidth: 250, header: "Emergency Last Name"},
+  { name: "emergencyPhone", defaultWidth: 250, header:"emergency Phone"},
+  { name: "services", defaultWidth: 500, header:"Services"},
+  { name: "times", defaultWidth: 500, header:"Times"},
+  { name: "languages", defaultWidth: 500, header:"Languages"},
+  { name: "notes", defaultWidth: 250, header:"Notes"},
 ];
 
 const filterValue = [
-  { name: 'firstName', operator: 'startsWith', type: 'string', value: '' },
+  { name: 'firstName', operator: 'startsWith', type: 'string', value: ''},
   { name: 'lastName', operator: 'startsWith', type: 'string', value: '' },
   { name: 'email', operator: 'startsWith', type: 'string', value: '' },
   { name: 'phone', operator: 'startsWith', type: 'string', value: '' },
@@ -55,7 +55,6 @@ const filterValue = [
 ];
 
 const DonationsTable = ({ donations }) => {
-  console.log(donations)
   const [gridRef, setGridRef] = useState(null);
   const exportCSV = () => {
     const columns = gridRef.current.visibleColumns;
