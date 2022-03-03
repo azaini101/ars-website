@@ -1,10 +1,13 @@
 {
   "files": {
-    "main.js": "/mern/static/js/main.41a5c527.js",
+    "main.css": "/mern/static/css/main.87e244f2.css",
+    "main.js": "/mern/static/js/main.3cfe9614.js",
     "index.html": "/mern/index.html",
-    "main.41a5c527.js.map": "/mern/static/js/main.41a5c527.js.map"
+    "main.87e244f2.css.map": "/mern/static/css/main.87e244f2.css.map",
+    "main.3cfe9614.js.map": "/mern/static/js/main.3cfe9614.js.map"
   },
   "entrypoints": [
-    "static/js/main.41a5c527.js"
+    "static/css/main.87e244f2.css",
+    "static/js/main.3cfe9614.js"
   ]
 }
