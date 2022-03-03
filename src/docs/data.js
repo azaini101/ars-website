@@ -59,11 +59,6 @@ const generalOptions = [
   "Items Needed"
 ]
   
-const combinedOptions = housingOptions.concat(employmentOptions, englishOptions, foodOptions, medicalOptions, legalOptions, educationOptions, enrollmentOptions, transportationOptions, generalOptions).map(
-  (x) => {
-    return { id: x, label: x };
-  }
-);
 
 const languageOptions = ["Urdu", "Pashto", "Dari", "Farsi"].map(
   (x) => {
@@ -148,4 +143,4 @@ const serviceOptions = [
 
 ];
 
-export {combinedOptions, serviceOptions, languageOptions, timeOptions };
+export {serviceOptions, languageOptions, timeOptions };
