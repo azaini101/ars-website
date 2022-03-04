@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://azaini.me/mern",
+  "homepage": "https://dmvrefugees.com/",
   "dependencies": {
     "@chakra-ui/react": "^1.8.5",
     "@emotion/react": "^11.8.1",
