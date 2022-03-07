@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import { ChakraProvider, CSSReset, extendTheme } from "@chakra-ui/react";
 
 const config = {
-  initialColorMode: "dark",
+  initialColorMode: "light",
   useSystemColorMode: false,
 };
 
