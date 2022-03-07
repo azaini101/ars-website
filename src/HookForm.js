@@ -159,7 +159,7 @@ export default function HookForm() {
         </FormControl>
         <br />
         <FormLabel htmlFor="note">
-          Anything else you want us to know?
+          Additional comments:
         </FormLabel>
         <Textarea
           id="notes"
