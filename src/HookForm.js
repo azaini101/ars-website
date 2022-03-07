@@ -51,7 +51,7 @@ export default function HookForm() {
 
   return (
     <Container maxW={"container.md"} boxShadow={"dark-lg"} p={8}>
-      <Heading>Idara Jaferia and Afghan Refugee Support</Heading>
+      <Heading>Idara-e-Jaferia Afghan Refugee Support</Heading>
 
       <br />
 
@@ -115,7 +115,7 @@ export default function HookForm() {
             />
 
             <Heading size="md">How Can You Help?</Heading>
-            <FormLabel htmlFor="services">In which categories are you interested in being a volunteer?  Select all that apply:</FormLabel>
+            <FormLabel htmlFor="services">In which areas would you like to volunteer?  Select all that apply:</FormLabel>
             <Select
               onChange={(e) => {
                 setServices(e);
@@ -142,7 +142,7 @@ export default function HookForm() {
             />
 
             <FormLabel htmlFor="languages" requiredIndicator={false}>
-              What languages do you speak fluently and could assist in translation? Select all that apply:
+              Languages you speak: Select all that apply:
             </FormLabel>
             <Select
               onChange={(e) => {
