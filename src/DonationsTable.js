@@ -27,7 +27,7 @@ const SEPARATOR = ',';
 
 const columns = [
   { name: "_id", defaultVisible: false},
-  { name: "firstName", defaultWidth: 25, header:"First Name"},
+  { name: "firstName", defaultWidth: 250, header:"First Name"},
   { name: "lastName", defaultWidth: 250, header:"Last Name"},
   { name: "email", defaultWidth: 250, header:"Email"},
   { name: "phone", defaultWidth: 250, header:"Phone"},
