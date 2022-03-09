@@ -5,7 +5,7 @@ import "@inovua/reactdatagrid-community/base.css";
 import "@inovua/reactdatagrid-community/index.css";
 import Button from "@inovua/reactdatagrid-community/packages/Button";
 
-const gridStyle = { minHeight: 600 };
+const gridStyle = { height: 1100 };
 
 const downloadBlob = (blob, fileName = "grid-data.csv") => {
   const link = document.createElement("a");
