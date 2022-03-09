@@ -26,7 +26,9 @@ app.post("/submitForm", async (req, res) => {
   await Donation.findOneAndUpdate(
     {
       firstName: donation.firstName,
-      lastName: donation.lastName
+      lastName: donation.lastName,
+      email: donation.email,
+      phone: donation.phone
     },
     {
       firstName: donation.firstName,
