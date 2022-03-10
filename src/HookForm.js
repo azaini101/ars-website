@@ -29,9 +29,9 @@ export default function HookForm() {
   const onSubmit = async (data) => {
     data = {
       ...data,
-      services: services.map((service) => service.value).join('; '),
-      languages: languages.map((language) => language.value).join('; '),
-      times: times.map((time) => time.value).join('; '),
+      services: services.map((service) => service.value).join("; "),
+      languages: languages.map((language) => language.value).join("; "),
+      times: times.map((time) => time.value).join("; "),
     };
 
     const response = await fetch(`${BACKEND_URL}/submitForm`, {
@@ -51,7 +51,7 @@ export default function HookForm() {
 
   return (
     <Container maxW={"container.md"} boxShadow={"dark-lg"} p={8}>
-      <Heading>Idara-e-Jaferia  Refugee Support</Heading>
+      <Heading>Idara-e-Jaferia Refugee Support</Heading>
 
       <br />
 
@@ -115,7 +115,9 @@ export default function HookForm() {
             />
 
             <Heading size="md">How Can You Help?</Heading>
-            <FormLabel htmlFor="services">In which areas would you like to volunteer?  Select all that apply:</FormLabel>
+            <FormLabel htmlFor="services">
+              In which areas would you like to volunteer? Select all that apply:
+            </FormLabel>
             <Select
               onChange={(e) => {
                 setServices(e);
@@ -153,14 +155,10 @@ export default function HookForm() {
               options={languageOptions}
               closeMenuOnSelect={false}
             />
-
-
           </Stack>
         </FormControl>
         <br />
-        <FormLabel htmlFor="note">
-          Additional comments:
-        </FormLabel>
+        <FormLabel htmlFor="note">Additional comments:</FormLabel>
         <Textarea
           id="notes"
           placeholder="We thank you in advance for your contribution!"
