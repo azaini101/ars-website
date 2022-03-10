@@ -19,14 +19,36 @@ mongoose.connection.on("connected", () => {
   console.log("MongoDB db connection established");
 });
 
-app.post("/submitForm", (req, res) => {
+app.post("/submitForm", async (req, res) => {
   console.log("/submitForm");
   const donation = new Donation(req.body);
-  donation.save().then((data) => {
-    res.send(data);
-  });
-});
+  console.log(donation)
+  await Donation.findOneAndUpdate(
+    {
+      firstName: donation.firstName,
+      lastName: donation.lastName,
+      email: donation.email,
+      phone: donation.phone
+    },
+    {
+      firstName: donation.firstName,
+      lastName: donation.lastName,
+      email: donation.email,
+      phone: donation.phone,
+      emergencyFirstName: donation.emergencyFirstName,
+      emergencyLastName: donation.emergencyLastName,
+      emergencyPhone: donation.emergencyPhone,
+      services: donation.services,
+      times: donation.times,
+      languages: donation.languages,
+      notes: donation.notes,
 
+    },
+    {
+      upsert: true
+    })
+  res.sendStatus(200);
+});
 app.get("/donations", async (req, res) => {
   console.log("/donations");
 

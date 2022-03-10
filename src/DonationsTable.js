@@ -26,26 +26,18 @@ const downloadBlob = (blob, fileName = "grid-data.csv") => {
 const SEPARATOR = ",";
 
 const columns = [
-  { name: "_id", defaultVisible: false },
-  { name: "firstName", defaultWidth: 250, header: "First Name" },
-  { name: "lastName", defaultWidth: 250, header: "Last Name" },
-  { name: "email", defaultWidth: 250, header: "Email" },
-  { name: "phone", defaultWidth: 250, header: "Phone" },
-  {
-    name: "emergencyFirstName",
-    defaultWidth: 250,
-    header: "Emergency First Name",
-  },
-  {
-    name: "emergencyLastName",
-    defaultWidth: 250,
-    header: "Emergency Last Name",
-  },
-  { name: "emergencyPhone", defaultWidth: 250, header: "emergency Phone" },
-  { name: "services", defaultWidth: 500, header: "Services" },
-  { name: "times", defaultWidth: 500, header: "Times" },
-  { name: "languages", defaultWidth: 500, header: "Languages" },
-  { name: "notes", defaultWidth: 250, header: "Notes" },
+  { name: "_id", defaultVisible: false},
+  { name: "firstName", defaultWidth: 250, header:"First Name"},
+  { name: "lastName", defaultWidth: 250, header:"Last Name"},
+  { name: "email", defaultWidth: 250, header:"Email"},
+  { name: "phone", defaultWidth: 250, header:"Phone"},
+  { name: "emergencyFirstName", defaultWidth: 250, header: "Emergency First Name"},
+  { name: "emergencyLastName", defaultWidth: 250, header: "Emergency Last Name"},
+  { name: "emergencyPhone", defaultWidth: 250, header:"Emergency Phone"},
+  { name: "services", defaultWidth: 500, header:"Services"},
+  { name: "times", defaultWidth: 500, header:"Times"},
+  { name: "languages", defaultWidth: 500, header:"Languages"},
+  { name: "notes", defaultWidth: 250, header:"Notes"},
 ];
 
 const filterValue = [
