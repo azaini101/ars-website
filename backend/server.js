@@ -28,7 +28,14 @@ app.post("/submitForm", async (req, res) => {
       firstName: donation.firstName,
       lastName: donation.lastName,
       email: donation.email,
-      phone: donation.phone
+      phone: donation.phone,
+      emergencyFirstName: donation.emergencyFirstName,
+      emergencyLastName: donation.emergencyLastName,
+      emergencyPhone: donation.emergencyPhone,
+      services: donation.services,
+      times: donation.times,
+      languages: donation.languages,
+      notes: donation.notes,
     },
     {
       firstName: donation.firstName,
