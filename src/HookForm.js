@@ -87,7 +87,8 @@ export default function HookForm() {
             <FormLabel htmlFor="phone">Phone Number</FormLabel>
             <Input
               id="phone"
-              placeholder="+1 555 555 5555"
+              type="number"
+              placeholder="4431234567"
               {...register("phone")}
             />
 
