@@ -9,6 +9,8 @@ import {
   Heading,
   Stack,
   Textarea,
+  Link,
+  Text
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { languageOptions, serviceOptions, timeOptions } from "./docs/data";
@@ -174,6 +176,13 @@ export default function HookForm() {
         >
           Submit
         </Button>
+        <Text p={3}>
+          To make a financial contribution, please click{' '}
+          <Link color='teal.500' href='https://jaferia.org/donations/afghan-refugee-funds/ ' target="_blank">
+            here
+          </Link>
+          .
+        </Text>
       </form>
     </Container>
   );
