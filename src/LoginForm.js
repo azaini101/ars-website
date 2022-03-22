@@ -26,6 +26,9 @@ const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
       setDonations(data);
       setLoggedInSuccessfully(true);
     }
+    else {
+      window.alert("Incorrect login credentials. Please try again.")
+    }
   };
 
   return (
@@ -55,7 +58,10 @@ const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
       <br />
       <br />
 
-      <Button onClick={getDonations}>Login</Button>
+      <Button
+        onClick={getDonations}>
+        Login
+      </Button>
     </Container>
   );
 };
