@@ -2,6 +2,7 @@
 /backend/.env
 /backend/node_modules
 /backend/.gitignore
+/pyscript/.env
 # dependencies
 /node_modules
 /.pnp
