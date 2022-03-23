@@ -5,25 +5,8 @@ import "@inovua/reactdatagrid-community/base.css";
 import "@inovua/reactdatagrid-community/index.css";
 import Button from "@inovua/reactdatagrid-community/packages/Button";
 
+const BACKEND_URL = process.env.REACT_APP_PYTHON_BACKEND_URL;
 const gridStyle = { height: 1100 };
-
-const downloadBlob = (blob, fileName = "grid-data.csv") => {
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
-
-  link.setAttribute("href", url);
-  link.setAttribute("download", fileName);
-  link.style.position = "absolute";
-  link.style.visibility = "hidden";
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  document.body.removeChild(link);
-};
-
-const SEPARATOR = ",";
 
 const columns = [
   { name: "_id", defaultVisible: false},
@@ -65,39 +48,16 @@ const filterValue = [
 ];
 
 const DonationsTable = ({ donations }) => {
-  const [gridRef, setGridRef] = useState(null);
-  const exportCSV = () => {
-    const columnNames = gridRef.current.visibleColumns.map(
-      (column) => column.header
-    );
-
-    const columnIds = gridRef.current.visibleColumns.map((column) => column.id);
-
-    const rows = gridRef.current.data.map((row) =>
-      columnIds
-        .map((column) => {
-          if (column === "services") {
-            return `"${row[column]}"`;
-          } else {
-            return row[column];
-          }
-        })
-        .join(SEPARATOR)
-    );
-
-    const header = columnNames.join(SEPARATOR);
-    const contents = [header].concat(rows).join("\n");
-    const blob = new Blob([contents], { type: "text/csv;charset=utf-8;" });
-
-    downloadBlob(blob);
+  const exportExcel = async () => {
+    window.open(`${BACKEND_URL}/getData`); 
   };
+
 
   const rowData = donations;
 
   return (
     <>
       <ReactDataGrid
-        handle={setGridRef}
         theme="green-dark"
         idProperty="_id"
         style={gridStyle}
@@ -105,8 +65,9 @@ const DonationsTable = ({ donations }) => {
         dataSource={rowData}
         defaultFilterValue={filterValue}
       />
-      <Button style={{ marginTop: 20 }} onClick={exportCSV}>
-        Export CSV
+      
+      <Button style={{ marginTop: 20 }} onClick={exportExcel}>
+        Export Excel
       </Button>
     </>
   );
