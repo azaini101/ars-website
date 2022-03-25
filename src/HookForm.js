@@ -31,12 +31,12 @@ export default function HookForm() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    // emailjs.sendForm(process.env.REACT_APP_SERVICE, process.env.REACT_APP_EMAIL_TEMPLATE, '#formData', process.env.REACT_APP_USER_ID)
-    //   .then((result) => {
-    //     console.log(result.text);
-    //   }, (error) => {
-    //     console.log(error.text);
-    //   });
+    emailjs.sendForm(process.env.REACT_APP_SERVICE, process.env.REACT_APP_EMAIL_TEMPLATE, '#formData', process.env.REACT_APP_USER_ID)
+      .then((result) => {
+        console.log(result.text);
+      }, (error) => {
+        console.log(error.text);
+      });
     data = {
       ...data,
       services: services.map((service) => service.value).join("; "),
