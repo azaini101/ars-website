@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import emailjs from "emailjs-com"
 import { useForm } from "react-hook-form";
 import {
+  FormErrorMessage,
   FormLabel,
   FormControl,
   Input,
@@ -11,7 +12,7 @@ import {
   Stack,
   Textarea,
   Link,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { languageOptions, serviceOptions, timeOptions } from "./docs/data";
@@ -30,12 +31,12 @@ export default function HookForm() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    await emailjs.sendForm(process.env.REACT_APP_SERVICE, process.env.REACT_APP_EMAIL_TEMPLATE, '#formData', process.env.REACT_APP_USER_ID)
-      .then((result) => {
-        console.log(result.text);
-      }, (error) => {
-        console.log(error.text);
-      });
+    // emailjs.sendForm(process.env.REACT_APP_SERVICE, process.env.REACT_APP_EMAIL_TEMPLATE, '#formData', process.env.REACT_APP_USER_ID)
+    //   .then((result) => {
+    //     console.log(result.text);
+    //   }, (error) => {
+    //     console.log(error.text);
+    //   });
     data = {
       ...data,
       services: services.map((service) => service.value).join("; "),
@@ -49,15 +50,33 @@ export default function HookForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then(window.alert("Form has been submitted"));
-
-
-    // TODO check for errors
-    // window.location.reload(false);
+    });
+    window.alert("Form has been submitted")
   };
 
   // TODO show an actual error message
   console.log("Errors: ", errors);
+  function validate(value) {
+    if (!value) {
+      return "This field is required.";
+    } else return true;
+  }
+
+  function validateEmail(value) {
+    if (!value) {
+      return "This field is required.";
+    } else if (value.search("@") === -1) {
+      return "Please enter a valid email address."
+    } else return true;
+  }
+
+  function validatePhone(value) {
+    if (!value) {
+      return "This field is required.";
+    } else if (value.toString().length < 10) {
+      return "Please enter your full phone number."
+    } else return true;
+  }
 
   return (
     <Container maxW={"container.md"} boxShadow={"dark-lg"} p={8}>
@@ -66,111 +85,150 @@ export default function HookForm() {
       <br />
 
       <form id="formData" onSubmit={handleSubmit(onSubmit)}>
-        <FormControl isRequired>
-          <Stack spacing={4}>
-            <Heading size="md">Volunteer Information</Heading>
-
+        <Stack spacing={4}>
+          <Heading size="md">Volunteer Information</Heading>
+          <FormControl isInvalid={errors.firstName} isRequired>
             <FormLabel htmlFor="firstName">First Name</FormLabel>
             <Input
               id="firstName"
               placeholder="First Name"
-              {...register("firstName")}
+              {...register("firstName", { validate: validate })}
             />
+            <FormErrorMessage>
+              {errors.firstName && errors.firstName.message}
+            </FormErrorMessage>
+          </FormControl>
 
+          <FormControl isInvalid={errors.lastName} isRequired>
             <FormLabel htmlFor="lastName">Last Name</FormLabel>
             <Input
               id="lastName"
               placeholder="Last Name"
-              {...register("lastName")}
+              {...register("lastName", { validate })}
             />
+            <FormErrorMessage>
+              {errors.lastName && errors.lastName.message}
+            </FormErrorMessage>
+          </FormControl>
 
+          <FormControl isInvalid={errors.email} isRequired>
             <FormLabel htmlFor="email">Email Address</FormLabel>
             <Input
               id="email"
               type="email"
               placeholder="email@address.com"
-              {...register("email")}
+              {...register("email", { validate: validateEmail })}
             />
+            <FormErrorMessage>
+              {errors.email && errors.email.message}
+            </FormErrorMessage>
+          </FormControl>
 
+
+
+          <FormControl isInvalid={errors.phone} isRequired>
             <FormLabel htmlFor="phone">Phone Number</FormLabel>
             <Input
               id="phone"
               placeholder="4431234567"
-              minLength="10"
-              {...register("phone")}
+              type="number"
+              {...register("phone", { validate: validatePhone })}
             />
+            <FormErrorMessage>
+              {errors.phone && errors.phone.message}
+            </FormErrorMessage>
+          </FormControl>
 
-            <Heading size="md">Emergency Contact Information</Heading>
 
+
+          <Heading size="md">Emergency Contact Information</Heading>
+
+          <FormControl isInvalid={errors.emergencyFirstName} isRequired>
             <FormLabel htmlFor="emergencyFirstName">First Name</FormLabel>
             <Input
               id="emergencyFirstName"
               placeholder="First Name"
-              {...register("emergencyFirstName")}
+              {...register("emergencyFirstName", { validate: validate })}
             />
+            <FormErrorMessage>
+              {errors.emergencyFirstName && errors.emergencyFirstName.message}
+            </FormErrorMessage>
+          </FormControl>
 
+          <FormControl isInvalid={errors.emergencyLastName} isRequired>
             <FormLabel htmlFor="emergencyLastName">Last Name</FormLabel>
             <Input
               id="emergencyLastName"
               placeholder="Last Name"
-              {...register("emergencyLastName")}
+              {...register("emergencyLastName", { validate: validate })}
             />
+            <FormErrorMessage>
+              {errors.emergencyLastName && errors.emergencyLastName.message}
+            </FormErrorMessage>
+          </FormControl>
 
-            <FormLabel htmlFor="emergencyPhone">
-              Emergency Phone Number
-            </FormLabel>
+
+          <FormControl isInvalid={errors.emergencyPhone} isRequired>
+            <FormLabel htmlFor="emergencyPhone">Emergency Phone Number</FormLabel>
             <Input
               id="emergencyPhone"
               placeholder="4431234567"
-              minLength="10"
-              {...register("emergencyPhone")}
+              type="number"
+              {...register("emergencyPhone", { validate: validatePhone })}
             />
+            <FormErrorMessage>
+              {errors.emergencyPhone && errors.emergencyPhone.message}
+            </FormErrorMessage>
+          </FormControl>
 
-            <Heading size="md">How Can You Help?</Heading>
-            <FormLabel htmlFor="services">
-              In which areas would you like to volunteer? Select all that apply:
-            </FormLabel>
-            <Select
-              onChange={(e) => {
-                setServices(e);
-              }}
-              isMulti
-              id="services"
-              placeholder="Select services"
-              options={serviceOptions}
-              closeMenuOnSelect={false}
-              hasStickyGroupHeaders={true}
-            />
+          <FormControl isRequired>
+            <Stack spacing={4}>
+              <Heading size="md">How Can You Help?</Heading>
+              <FormLabel htmlFor="services">
+                In which areas would you like to volunteer? Select all that apply:
+              </FormLabel>
+              <Select
+                onChange={(e) => {
+                  setServices(e);
+                }}
+                isMulti
+                id="services"
+                placeholder="Select services"
+                options={serviceOptions}
+                closeMenuOnSelect={false}
+                hasStickyGroupHeaders={true}
+              />
+              <FormLabel htmlFor="times">
+                What times are you available? Select all that apply:
+              </FormLabel>
+              <Select
+                onChange={(e) => {
+                  setTimes(e);
+                }}
+                isMulti
+                id="times"
+                options={timeOptions}
+                closeMenuOnSelect={false}
+              />
 
-            <FormLabel htmlFor="times">
-              What times are you available? Select all that apply:
-            </FormLabel>
-            <Select
-              onChange={(e) => {
-                setTimes(e);
-              }}
-              isMulti
-              id="times"
-              options={timeOptions}
-              closeMenuOnSelect={false}
-            />
+              <FormLabel htmlFor="languages">
+                Languages you speak: Select all that apply:
+              </FormLabel>
+              <Select
+                onChange={(e) => {
+                  setLanguages(e);
+                }}
+                isMulti
+                id="languages"
+                options={languageOptions}
+                closeMenuOnSelect={false}
+              />
+            </Stack>
+          </FormControl>
 
-            <FormLabel htmlFor="languages">
-              Languages you speak: Select all that apply:
-            </FormLabel>
-            <Select
-              onChange={(e) => {
-                setLanguages(e);
-              }}
-              isMulti
-              id="languages"
-              options={languageOptions}
-              closeMenuOnSelect={false}
-            />
-          </Stack>
-        </FormControl>
+        </Stack>
         <br />
-        <FormLabel htmlFor="note">Additional comments:</FormLabel>
+        <FormLabel htmlFor="notes">Additional comments:</FormLabel>
         <Textarea
           id="notes"
           placeholder="We thank you in advance for your contribution!"
