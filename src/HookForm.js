@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import emailjs from "emailjs-com"
 import { useForm } from "react-hook-form";
 import {
   FormLabel,
@@ -29,6 +30,12 @@ export default function HookForm() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    await emailjs.sendForm(process.env.REACT_APP_SERVICE, process.env.REACT_APP_EMAIL_TEMPLATE, '#formData', process.env.REACT_APP_USER_ID)
+      .then((result) => {
+        console.log(result.text);
+      }, (error) => {
+        console.log(error.text);
+      });
     data = {
       ...data,
       services: services.map((service) => service.value).join("; "),
@@ -42,9 +49,10 @@ export default function HookForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    });
+    }).then(window.alert("Form has been submitted"));
+
+
     // TODO check for errors
-    window.alert("Form has been submitted");
     // window.location.reload(false);
   };
 
@@ -57,7 +65,7 @@ export default function HookForm() {
 
       <br />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form id="formData" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isRequired>
           <Stack spacing={4}>
             <Heading size="md">Volunteer Information</Heading>
@@ -88,7 +96,7 @@ export default function HookForm() {
             <Input
               id="phone"
               placeholder="4431234567"
-              minlength="10"
+              minLength="10"
               {...register("phone")}
             />
 
@@ -114,7 +122,7 @@ export default function HookForm() {
             <Input
               id="emergencyPhone"
               placeholder="4431234567"
-              minlength="10"
+              minLength="10"
               {...register("emergencyPhone")}
             />
 
