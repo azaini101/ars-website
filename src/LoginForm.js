@@ -7,8 +7,9 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const getDonations = async () => {
+    setLoading(true)
     let headers = new Headers();
     headers.set(
       "Authorization",
@@ -28,6 +29,7 @@ const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
     }
     else {
       window.alert("Incorrect login credentials. Please try again.")
+      setLoading(false)
     }
   };
 
@@ -59,7 +61,8 @@ const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
       <br />
 
       <Button
-        onClick={getDonations}>
+        onClick={getDonations}
+        isLoading={loading}>
         Login
       </Button>
     </Container>
