@@ -4,23 +4,24 @@ import "@inovua/reactdatagrid-community/theme/green-dark.css";
 import "@inovua/reactdatagrid-community/base.css";
 import "@inovua/reactdatagrid-community/index.css";
 import Button from "@inovua/reactdatagrid-community/packages/Button";
+import { JsonToTable } from "react-json-to-table";
 
 const BACKEND_URL = process.env.REACT_APP_PYTHON_BACKEND_URL;
 const gridStyle = { height: 1100 };
 
 const columns = [
-  { name: "_id", defaultVisible: false},
-  { name: "firstName", defaultWidth: 250, header:"First Name"},
-  { name: "lastName", defaultWidth: 250, header:"Last Name"},
-  { name: "email", defaultWidth: 250, header:"Email"},
-  { name: "phone", defaultWidth: 250, header:"Phone"},
-  { name: "emergencyFirstName", defaultWidth: 250, header: "Emergency First Name"},
-  { name: "emergencyLastName", defaultWidth: 250, header: "Emergency Last Name"},
-  { name: "emergencyPhone", defaultWidth: 250, header:"Emergency Phone"},
-  { name: "services", defaultWidth: 500, header:"Services"},
-  { name: "times", defaultWidth: 500, header:"Times"},
-  { name: "languages", defaultWidth: 500, header:"Languages"},
-  { name: "notes", defaultWidth: 250, header:"Notes"},
+  { name: "_id", defaultVisible: false },
+  { name: "firstName", defaultWidth: 250, header: "First Name" },
+  { name: "lastName", defaultWidth: 250, header: "Last Name" },
+  { name: "email", defaultWidth: 250, header: "Email" },
+  { name: "phone", defaultWidth: 250, header: "Phone" },
+  { name: "emergencyFirstName", defaultWidth: 250, header: "Emergency First Name" },
+  { name: "emergencyLastName", defaultWidth: 250, header: "Emergency Last Name" },
+  { name: "emergencyPhone", defaultWidth: 250, header: "Emergency Phone" },
+  { name: "services", defaultWidth: 500, header: "Services" },
+  { name: "times", defaultWidth: 500, header: "Times" },
+  { name: "languages", defaultWidth: 500, header: "Languages" },
+  { name: "notes", defaultWidth: 250, header: "Notes" },
 ];
 
 const filterValue = [
@@ -48,29 +49,44 @@ const filterValue = [
 ];
 
 const DonationsTable = ({ donations }) => {
+  const [view, switchView] = useState(false);
   const exportExcel = async () => {
-    window.open(`${BACKEND_URL}/getData`); 
+    window.open(`${BACKEND_URL}/getData`);
   };
 
 
+  const changeView = () => {
+    switchView(!view);
+  };
+
+  donations.forEach(donation => {
+    delete donation._id
+    delete donation.__v
+  });
   const rowData = donations;
 
   return (
-    <>
-      <ReactDataGrid
-        theme="green-dark"
-        idProperty="_id"
-        style={gridStyle}
-        columns={columns}
-        dataSource={rowData}
-        defaultFilterValue={filterValue}
-      />
-      
+    <div>
+      <Button style={{ marginTop: 20 }} onClick={changeView}>
+        Change View
+      </Button>
+      {view ?
+        <div>
+          <JsonToTable json={rowData} />
+        </div>
+        :
+        <ReactDataGrid
+          theme="green-dark"
+          idProperty="_id"
+          style={gridStyle}
+          columns={columns}
+          dataSource={rowData}
+          defaultFilterValue={filterValue}
+        />}
       <Button style={{ marginTop: 20 }} onClick={exportExcel}>
         Export Excel
       </Button>
-    </>
+    </div>
   );
 };
-
 export default DonationsTable;
