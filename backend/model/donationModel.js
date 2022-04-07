@@ -15,5 +15,6 @@ const donationsSchema = {
 };
 
 const Donation = mongoose.model("Donation", donationsSchema);
+const Register = mongoose.model("Register", donationsSchema);
 
-module.exports = Donation;
+module.exports = {Donation, Register};

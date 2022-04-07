@@ -19,7 +19,7 @@ import { languageOptions, serviceOptions, timeOptions } from "./docs/data";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-export default function HookForm() {
+export default function HookForm({version}) {
   const [services, setServices] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [times, setTimes] = useState([]);
@@ -44,7 +44,7 @@ export default function HookForm() {
       times: times.map((time) => time.value).join("; "),
     };
 
-    const response = await fetch(`${BACKEND_URL}/submitForm`, {
+    const response = await fetch(`${BACKEND_URL}/submitForm${version}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

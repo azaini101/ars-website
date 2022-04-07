@@ -3,8 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const argon2 = require("argon2");
 const mongoose = require("mongoose");
-const Donation = require("./model/donationModel");
+const Models = require("./model/donationModel");
 const User = require("./model/userModel");
+const { VerticalDirection } = require("ag-grid-community");
 
 const PORT = process.env.PORT || 5000;
 
@@ -19,11 +20,21 @@ mongoose.connection.on("connected", () => {
   console.log("MongoDB db connection established");
 });
 
-app.post("/submitForm", async (req, res) => {
+app.post("/submitForm:version", async (req, res) => {
   console.log("/submitForm");
-  const donation = new Donation(req.body);
-  console.log(donation)
-  await Donation.findOneAndUpdate(
+  const version = req.params.version
+  console.log(version)
+  var donation;
+  var obj;
+  if(version == "signup"){
+    donation = new Models.Donation(req.body);
+    obj = Models.Donation;
+  }
+  else if(version == "register"){
+    donation = new Models.Register(req.body);
+    obj = Models.Register;
+  }
+  await obj.findOneAndUpdate(
     {
       firstName: donation.firstName,
       lastName: donation.lastName,
@@ -56,6 +67,7 @@ app.post("/submitForm", async (req, res) => {
     })
   res.sendStatus(200);
 });
+
 app.get("/donations", async (req, res) => {
   console.log("/donations");
 
@@ -68,7 +80,7 @@ app.get("/donations", async (req, res) => {
   if (user) {
     const isPasswordValid = await argon2.verify(user.password, password);
     if (isPasswordValid) {
-      const donations = await Donation.find({});
+      const donations = await Models.Donation.find({});
       return res.send(JSON.stringify(donations));
     }
   }
