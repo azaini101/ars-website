@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Container, Heading } from "@chakra-ui/react";
 import DonationsTable from "./DonationsTable";
 import LoginForm from "./LoginForm";
 
@@ -9,12 +8,6 @@ const Dashboard = () => {
 
   return (
     <>
-      <Heading textAlign={"center"} pt={6}>
-        Dashboard
-      </Heading>
-
-      <br />
-
       {loggedInSuccessfully ? (
         <DonationsTable data={data} />
       ) : (

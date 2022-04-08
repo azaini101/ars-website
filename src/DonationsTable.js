@@ -5,7 +5,7 @@ import "@inovua/reactdatagrid-community/base.css";
 import "@inovua/reactdatagrid-community/index.css";
 //import Button from "@inovua/reactdatagrid-community/packages/Button";
 import { JsonToTable } from "react-json-to-table";
-import { Stack, Button, useBreakpointValue} from '@chakra-ui/react'
+import { Heading, Stack, Button, useBreakpointValue } from '@chakra-ui/react'
 const BACKEND_URL = process.env.REACT_APP_PYTHON_BACKEND_URL;
 const gridStyle = { height: 1100 };
 
@@ -54,6 +54,7 @@ const DonationsTable = ({ data }) => {
 
   const [tableview, switchTableView] = useState(false);
   const [rowData, switchDataView] = useState(donations);
+  const [dataType, switchDataType] = useState(false);
 
   var exportExcel = (dataType) => {
     console.log(dataType)
@@ -66,11 +67,13 @@ const DonationsTable = ({ data }) => {
   };
 
   const changeDataView = () => {
-    if (rowData === donations) {
+    if (dataType === false) {
       switchDataView(registers);
+      switchDataType(true);
     }
-    else if (rowData === registers) {
+    else if (dataType === true) {
       switchDataView(donations);
+      switchDataType(false);
     }
 
   };
@@ -87,6 +90,16 @@ const DonationsTable = ({ data }) => {
 
   return (
     <div>
+      {dataType ?
+        <Heading textAlign={"center"} pt={6}>
+          Register Dashboard
+        </Heading>
+        :
+        <Heading textAlign={"center"} pt={6}>
+          Idara Dashboard
+        </Heading>
+        }
+      <br></br>
       <Stack justify={"center"} p={1} direction={useBreakpointValue({ base: 'column', md: 'row' })}>
         <Button onClick={changeTableView}>
           Change View
