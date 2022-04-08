@@ -3,9 +3,9 @@ import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/theme/green-dark.css";
 import "@inovua/reactdatagrid-community/base.css";
 import "@inovua/reactdatagrid-community/index.css";
-import Button from "@inovua/reactdatagrid-community/packages/Button";
+//import Button from "@inovua/reactdatagrid-community/packages/Button";
 import { JsonToTable } from "react-json-to-table";
-
+import { Stack, Button, useBreakpointValue} from '@chakra-ui/react'
 const BACKEND_URL = process.env.REACT_APP_PYTHON_BACKEND_URL;
 const gridStyle = { height: 1100 };
 
@@ -48,29 +48,64 @@ const filterValue = [
   { name: "notes", operator: "contains", type: "string", value: "" },
 ];
 
-const DonationsTable = ({ donations }) => {
-  const [view, switchView] = useState(false);
-  const exportExcel = async () => {
-    window.open(`${BACKEND_URL}/getData`);
+const DonationsTable = ({ data }) => {
+  const donations = data.donations
+  const registers = data.registers
+
+  const [tableview, switchTableView] = useState(false);
+  const [rowData, switchDataView] = useState(donations);
+
+  var exportExcel = (dataType) => {
+    console.log(dataType)
+    window.open(`${BACKEND_URL}/getData?dataType=${dataType}`);
   };
 
 
-  const changeView = () => {
-    switchView(!view);
+  const changeTableView = () => {
+    switchTableView(!tableview);
+  };
+
+  const changeDataView = () => {
+    if (rowData === donations) {
+      switchDataView(registers);
+    }
+    else if (rowData === registers) {
+      switchDataView(donations);
+    }
+
   };
 
   donations.forEach(donation => {
     delete donation._id
     delete donation.__v
   });
-  const rowData = donations;
+
+  registers.forEach(register => {
+    delete register._id
+    delete register.__v
+  });
 
   return (
     <div>
-      <Button style={{ marginTop: 20 }} onClick={changeView}>
-        Change View
-      </Button>
-      {view ?
+      <Stack justify={"center"} p={1} direction={useBreakpointValue({ base: 'column', md: 'row' })}>
+        <Button onClick={changeTableView}>
+          Change View
+        </Button>
+        <Button onClick={changeDataView}>
+          Check Other Database
+        </Button>
+        <Button onClick={() => exportExcel("donations")}>
+          Export Idara Data
+        </Button>
+        <Button onClick={() => exportExcel("registers")}>
+          Export Community Data
+        </Button>
+        <Button onClick={() => exportExcel("all")}>
+          Export All Data
+        </Button>
+      </Stack>
+      <br></br>
+      {/* {tableview ?
         <div>
           <JsonToTable json={rowData} />
         </div>
@@ -82,10 +117,7 @@ const DonationsTable = ({ donations }) => {
           columns={columns}
           dataSource={rowData}
           defaultFilterValue={filterValue}
-        />}
-      <Button style={{ marginTop: 20 }} onClick={exportExcel}>
-        Export Excel
-      </Button>
+        />} */}
     </div>
   );
 };

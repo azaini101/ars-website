@@ -1,4 +1,4 @@
-from flask import Flask, send_file
+from flask import Flask, send_file, request
 from pymongo import MongoClient
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 link = os.environ.get("MONGODB_URI")
 app = Flask(__name__)
-
+fields = []
 
 def copyRange(startCol, startRow, endCol, endRow, sheet):
     rangeSelected = []
@@ -35,38 +35,8 @@ def boldHeader(sh):
         cell = sh.cell(row = 1, column = i)
         cell.font = Font(bold=True)
 
-@app.route("/getData", methods=['GET'])
-def getData():
-    return main()
-
-def main():
-    today = date.today()
-    the_date = today.strftime("%b_%d_%Y")
-
-    client = MongoClient(link)
-    db = client['donationsDB']
-    collection = db['donations']
-    cursor = collection.find({})
-    wb = Workbook()
-    sheets = {
-    "Housing",
-    "Employment",
-    "English",
-    "Benefits",
-    "Mentoring",
-    "Medical",
-    "Legal",
-    "Education",
-    "Transportation",
-    "Financial",
-    "Electronics",
-    "Apartment Setup"
-    }
-
-    firstRun = True
-    sh = wb.active
-    sh.title = "Signups_{}".format(the_date)
-    fields = []
+def iterateCursor(firstRun, cursor, sh, wb, sheets):
+    global fields
     for document in cursor:
         if(firstRun):
             fields = list(document.keys())
@@ -100,10 +70,62 @@ def main():
                     boldHeader(sersh)
                 row = sersh.max_row + 1
                 pasteRange(1, row, 11, row, sersh, copied)
+    return fields
+
+
+@app.route("/getData", methods=['GET'])
+def getData():
+    dataType = request.args.get('dataType')
+    print(dataType)
+    return main(dataType)
+
+def main(dataType):
+    today = date.today()
+    the_date = today.strftime("%b_%d_%Y")
+
+    client = MongoClient(link)
+    print("got it")
+    db = client['donationsDB']
+    if(dataType == "all"):
+        collection = db["donations"]
+    else:
+        collection = db[dataType]
+    cursor = collection.find({})
+
+    wb = Workbook()
+    sheets = {
+    "Housing",
+    "Employment",
+    "English",
+    "Benefits",
+    "Mentoring",
+    "Medical",
+    "Legal",
+    "Education",
+    "Transportation",
+    "Financial",
+    "Electronics",
+    "Apartment Setup"
+    }
+
+    sh = wb.active
+    sh.title = "Signups_{}".format(the_date)
+    iterateCursor(True, cursor, sh, wb, sheets)
+    if(dataType == "all"):
+        collection = db["registers"]
+        cursor = collection.find({})
+        iterateCursor(False, cursor, sh, wb, sheets)
     out = io.BytesIO()
     wb.save(out)
     out.seek(0)
-    return send_file(out, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', download_name="{}_export.xlsx".format(the_date), as_attachment=True)
+    if(dataType == "donations"):
+        dataType = "Idara"
+    elif(dataType == "registers"):
+        dataType = "Community"
+    elif(dataType == "all"):
+        dataType = "All"
+    file_name = "{}_{}_export.xlsx".format(the_date, dataType)
+    return send_file(out, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', download_name=file_name, as_attachment=True)
 
 if __name__ == "__main__":
     app.run(debug=True)

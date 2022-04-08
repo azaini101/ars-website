@@ -4,7 +4,7 @@ import DonationsTable from "./DonationsTable";
 import LoginForm from "./LoginForm";
 
 const Dashboard = () => {
-  const [donations, setDonations] = useState([]);
+  const [data, setDonations] = useState([]);
   const [loggedInSuccessfully, setLoggedInSuccessfully] = useState(false);
 
   return (
@@ -16,7 +16,7 @@ const Dashboard = () => {
       <br />
 
       {loggedInSuccessfully ? (
-        <DonationsTable donations={donations} />
+        <DonationsTable data={data} />
       ) : (
         <LoginForm
           setDonations={setDonations}

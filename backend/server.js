@@ -25,11 +25,11 @@ app.post("/submitForm:version", async (req, res) => {
   console.log(version)
   var donation;
   var obj;
-  if(version == "signup"){
+  if(version === "signup"){
     donation = new Models.Donation(req.body);
     obj = Models.Donation;
   }
-  else if(version == "register"){
+  else if(version === "register"){
     donation = new Models.Register(req.body);
     obj = Models.Register;
   }
@@ -80,7 +80,8 @@ app.get("/donations", async (req, res) => {
     const isPasswordValid = await argon2.verify(user.password, password);
     if (isPasswordValid) {
       const donations = await Models.Donation.find({});
-      return res.send(JSON.stringify(donations));
+      const registers = await Models.Register.find({});
+      return res.send({donations, registers});
     }
   }
 
