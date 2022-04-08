@@ -98,7 +98,7 @@ const DonationsTable = ({ data }) => {
           Export Idara Data
         </Button>
         <Button onClick={() => exportExcel("registers")}>
-          Export Community Data
+          Export Register Data
         </Button>
         <Button onClick={() => exportExcel("all")}>
           Export All Data
