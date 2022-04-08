@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import emailjs from "emailjs-com"
+import emailjs from "emailjs-com";
 import { useForm } from "react-hook-form";
 import {
   FormErrorMessage,
@@ -19,7 +19,7 @@ import { languageOptions, serviceOptions, timeOptions } from "./docs/data";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-export default function HookForm({version}) {
+export default function HookForm({ version }) {
   const [services, setServices] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [times, setTimes] = useState([]);
@@ -31,12 +31,21 @@ export default function HookForm({version}) {
   } = useForm();
 
   const onSubmit = async (data) => {
-    emailjs.sendForm(process.env.REACT_APP_SERVICE, process.env.REACT_APP_EMAIL_TEMPLATE, '#formData', process.env.REACT_APP_USER_ID)
-      .then((result) => {
-        console.log(result.text);
-      }, (error) => {
-        console.log(error.text);
-      });
+    emailjs
+      .sendForm(
+        process.env.REACT_APP_SERVICE,
+        process.env.REACT_APP_EMAIL_TEMPLATE,
+        "#formData",
+        process.env.REACT_APP_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
     data = {
       ...data,
       services: services.map((service) => service.value).join("; "),
@@ -44,14 +53,14 @@ export default function HookForm({version}) {
       times: times.map((time) => time.value).join("; "),
     };
 
-    const response = await fetch(`${BACKEND_URL}/submitForm${version}`, {
+    const response = await fetch(`${BACKEND_URL}/submitForm/${version}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
-    window.alert("Form has been submitted")
+    window.alert("Form has been submitted");
   };
 
   // TODO show an actual error message
@@ -66,7 +75,7 @@ export default function HookForm({version}) {
     if (!value) {
       return "This field is required.";
     } else if (value.search("@") === -1) {
-      return "Please enter a valid email address."
+      return "Please enter a valid email address.";
     } else return true;
   }
 
@@ -74,7 +83,7 @@ export default function HookForm({version}) {
     if (!value) {
       return "This field is required.";
     } else if (value.toString().length < 10) {
-      return "Please enter your full phone number."
+      return "Please enter your full phone number.";
     } else return true;
   }
 
@@ -124,8 +133,6 @@ export default function HookForm({version}) {
             </FormErrorMessage>
           </FormControl>
 
-
-
           <FormControl isInvalid={errors.phone} isRequired>
             <FormLabel htmlFor="phone">Phone Number</FormLabel>
             <Input
@@ -138,8 +145,6 @@ export default function HookForm({version}) {
               {errors.phone && errors.phone.message}
             </FormErrorMessage>
           </FormControl>
-
-
 
           <Heading size="md">Emergency Contact Information</Heading>
 
@@ -167,9 +172,10 @@ export default function HookForm({version}) {
             </FormErrorMessage>
           </FormControl>
 
-
           <FormControl isInvalid={errors.emergencyPhone} isRequired>
-            <FormLabel htmlFor="emergencyPhone">Emergency Phone Number</FormLabel>
+            <FormLabel htmlFor="emergencyPhone">
+              Emergency Phone Number
+            </FormLabel>
             <Input
               id="emergencyPhone"
               placeholder="4431234567"
@@ -185,7 +191,8 @@ export default function HookForm({version}) {
             <Stack spacing={4}>
               <Heading size="md">How Can You Help?</Heading>
               <FormLabel htmlFor="services">
-                In which areas would you like to volunteer? Select all that apply:
+                In which areas would you like to volunteer? Select all that
+                apply:
               </FormLabel>
               <Select
                 onChange={(e) => {
@@ -225,7 +232,6 @@ export default function HookForm({version}) {
               />
             </Stack>
           </FormControl>
-
         </Stack>
         <br />
         <FormLabel htmlFor="notes">Additional comments:</FormLabel>
@@ -239,14 +245,22 @@ export default function HookForm({version}) {
         <Button
           colorScheme="teal"
           isLoading={isSubmitting}
-          isDisabled={services.length === 0 || times.length === 0 || languages.length === 0}
+          isDisabled={
+            services.length === 0 ||
+            times.length === 0 ||
+            languages.length === 0
+          }
           type="submit"
         >
           Submit
         </Button>
         <Text p={3}>
-          To make a financial contribution, please click{' '}
-          <Link color='teal.500' href='https://jaferia.org/donations/afghan-refugee-funds/ ' target="_blank">
+          To make a financial contribution, please click{" "}
+          <Link
+            color="teal.500"
+            href="https://jaferia.org/donations/afghan-refugee-funds/ "
+            target="_blank"
+          >
             here
           </Link>
           .

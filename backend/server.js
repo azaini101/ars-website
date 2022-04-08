@@ -19,17 +19,16 @@ mongoose.connection.on("connected", () => {
   console.log("MongoDB db connection established");
 });
 
-app.post("/submitForm:version", async (req, res) => {
+app.post("/submitForm/:version", async (req, res) => {
   console.log("/submitForm");
-  const version = req.params.version
-  console.log(version)
-  var donation;
-  var obj;
-  if(version === "signup"){
+  const version = req.params.version;
+  console.log(version);
+  let donation;
+  let obj;
+  if (version === "signup") {
     donation = new Models.Donation(req.body);
     obj = Models.Donation;
-  }
-  else if(version === "register"){
+  } else if (version === "register") {
     donation = new Models.Register(req.body);
     obj = Models.Register;
   }
@@ -59,11 +58,11 @@ app.post("/submitForm:version", async (req, res) => {
       times: donation.times,
       languages: donation.languages,
       notes: donation.notes,
-
     },
     {
-      upsert: true
-    })
+      upsert: true,
+    }
+  );
   res.sendStatus(200);
 });
 
@@ -81,7 +80,7 @@ app.get("/donations", async (req, res) => {
     if (isPasswordValid) {
       const donations = await Models.Donation.find({});
       const registers = await Models.Register.find({});
-      return res.send({donations, registers});
+      return res.send({ donations, registers });
     }
   }
 
