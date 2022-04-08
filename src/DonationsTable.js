@@ -105,7 +105,7 @@ const DonationsTable = ({ data }) => {
         </Button>
       </Stack>
       <br></br>
-      {/* {tableview ?
+      {tableview ?
         <div>
           <JsonToTable json={rowData} />
         </div>
@@ -117,7 +117,7 @@ const DonationsTable = ({ data }) => {
           columns={columns}
           dataSource={rowData}
           defaultFilterValue={filterValue}
-        />} */}
+        />}
     </div>
   );
 };
