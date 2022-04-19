@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/theme/green-dark.css";
 import "@inovua/reactdatagrid-community/base.css";
 import "@inovua/reactdatagrid-community/index.css";
 //import Button from "@inovua/reactdatagrid-community/packages/Button";
 import { JsonToTable } from "react-json-to-table";
-import { Heading, Stack, Button, useBreakpointValue } from '@chakra-ui/react'
+import { Heading, Stack, Button, useBreakpointValue } from "@chakra-ui/react";
 const BACKEND_URL = process.env.REACT_APP_PYTHON_BACKEND_URL;
 const gridStyle = { height: 1100 };
 
@@ -15,8 +15,16 @@ const columns = [
   { name: "lastName", defaultWidth: 250, header: "Last Name" },
   { name: "email", defaultWidth: 250, header: "Email" },
   { name: "phone", defaultWidth: 250, header: "Phone" },
-  { name: "emergencyFirstName", defaultWidth: 250, header: "Emergency First Name" },
-  { name: "emergencyLastName", defaultWidth: 250, header: "Emergency Last Name" },
+  {
+    name: "emergencyFirstName",
+    defaultWidth: 250,
+    header: "Emergency First Name",
+  },
+  {
+    name: "emergencyLastName",
+    defaultWidth: 250,
+    header: "Emergency Last Name",
+  },
   { name: "emergencyPhone", defaultWidth: 250, header: "Emergency Phone" },
   { name: "services", defaultWidth: 500, header: "Services" },
   { name: "times", defaultWidth: 500, header: "Times" },
@@ -52,45 +60,43 @@ const filterValue = [
 ];
 
 const DonationsTable = ({ data }) => {
-  const donations = data.donations
-  const registers = data.registers
+  const donations = data.donations.map((e) => {
+    delete e._id;
+    delete e.__v;
+    return e;
+  });
+  const registers = data.registers.map((e) => {
+    delete e._id;
+    delete e.__v;
+    return e;
+  });
 
-  const [tableview, switchTableView] = useState(false);
-  const [rowData, switchDataView] = useState(donations);
-  const [dataType, switchDataType] = useState(false);
+  const [tableView, setTableView] = useState(false);
 
-  var exportExcel = (dataType) => {
-    console.log(dataType)
+  const [dataRows, setDataRows] = useState({});
+  const [dataType, setDataType] = useState(true);
+
+  const exportExcel = (dataType) => {
     window.open(`${BACKEND_URL}/getData?dataType=${dataType}`);
   };
 
-
   const changeTableView = () => {
-    switchTableView(!tableview);
+    setTableView(!tableView);
   };
 
-
-  donations.forEach(donation => {
-    delete donation._id
-    delete donation.__v
-  });
-
-  registers.forEach(register => {
-    delete register._id
-    delete register.__v
-  });
+  useEffect(() => {
+    if (dataType === false) {
+      setDataRows(registers);
+    } else if (dataType === true) {
+      setDataRows(donations);
+    }
+  }, [dataType]);
 
   return (
     <div>
-      {dataType ?
-        <Heading textAlign={"center"} pt={6}>
-          Register Dashboard
-        </Heading>
-        :
-        <Heading textAlign={"center"} pt={6}>
-          Idara Dashboard
-        </Heading>
-        }
+      <Heading textAlign={"center"} pt={6}>
+        {dataType ? "Idara Dashboard" : "Register Dashboard"}
+      </Heading>
       <br></br>
       <Stack justify={"center"} p={1} direction={useBreakpointValue({ base: 'column', md: 'row' })}>
         <Button onClick={changeTableView}>
@@ -101,19 +107,20 @@ const DonationsTable = ({ data }) => {
         </Button>
       </Stack>
       <br></br>
-      {tableview ?
+      {tableView ? (
         <div>
-          <JsonToTable json={rowData} />
+          <JsonToTable json={dataRows} />
         </div>
-        :
+      ) : (
         <ReactDataGrid
           theme="green-dark"
           idProperty="_id"
           style={gridStyle}
           columns={columns}
-          dataSource={rowData}
+          dataSource={dataRows}
           defaultFilterValue={filterValue}
-        />}
+        />
+      )}
     </div>
   );
 };

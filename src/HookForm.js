@@ -43,21 +43,21 @@ export default function HookForm({ version }) {
   } = useForm();
 
   const onSubmit = async (data) => {
-    // emailjs
-    //   .sendForm(
-    //     process.env.REACT_APP_SERVICE,
-    //     process.env.REACT_APP_EMAIL_TEMPLATE,
-    //     "#formData",
-    //     process.env.REACT_APP_USER_ID
-    //   )
-    //   .then(
-    //     (result) => {
-    //       console.log(result.text);
-    //     },
-    //     (error) => {
-    //       console.log(error.text);
-    //     }
-    //   );
+    emailjs
+      .sendForm(
+        process.env.REACT_APP_SERVICE,
+        process.env.REACT_APP_EMAIL_TEMPLATE,
+        "#formData",
+        process.env.REACT_APP_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
     data = {
       ...data,
       services: services.map((service) => service.value).join("; "),
@@ -68,7 +68,7 @@ export default function HookForm({ version }) {
       faith: faith.value,
     };
 
-    const response = await fetch(`${BACKEND_URL}/submitForm${version}`, {
+    const response = await fetch(`${BACKEND_URL}/submitForm/${version}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,12 +99,6 @@ export default function HookForm({ version }) {
       return "This field is required.";
     } else if (value.toString().length < 10) {
       return "Please enter your full phone number.";
-    } else return true;
-  }
-
-  function validateCheckbox(value) {
-    if (!value) {
-      return "Please check the box";
     } else return true;
   }
 
@@ -302,7 +296,7 @@ export default function HookForm({ version }) {
           <Checkbox
             paddingTop={4}
             paddingBottom={4}
-            {...register("agreement", { validate: validateCheckbox })}
+            {...register("agreement", { required: true})}
             onChange={(e) => setAgreement(!agreement)}
 
           >

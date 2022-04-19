@@ -19,12 +19,12 @@ mongoose.connection.on("connected", () => {
   console.log("MongoDB db connection established");
 });
 
-app.post("/submitForm:version", async (req, res) => {
+app.post("/submitForm/:version", async (req, res) => {
   console.log("/submitForm");
   const version = req.params.version;
   console.log(version);
-  var donation;
-  var obj;
+  let donation;
+  let obj;
   if (version === "signup") {
     donation = new Models.Donation(req.body);
     obj = Models.Donation;
