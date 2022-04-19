@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 load_dotenv()
 link = os.environ.get("MONGODB_URI")
 app = Flask(__name__)
-fields = []
 
 def copyRange(startCol, startRow, endCol, endRow, sheet):
     rangeSelected = []
@@ -30,27 +29,23 @@ def pasteRange(startCol, startRow, endCol, endRow, sheetReceiving,copiedData):
             countCol += 1
         countRow += 1
 
-def boldHeader(sh):
-    for i in range(1, 12):
+def boldHeader(sh, col):
+    for i in range(1, col+1):
         cell = sh.cell(row = 1, column = i)
         cell.font = Font(bold=True)
 
-def iterateCursor(firstRun, cursor, sh, wb, sheets):
-    global fields
+def iterateCursor(fields, cursor, sh, wb, sheets):
     for document in cursor:
-        if(firstRun):
-            fields = list(document.keys())
-            fields.remove("_id")
-            fields.remove("__v")
-            pasteRange(1, 1, 11, 1, sh, [fields])
-            boldHeader(sh)
-            firstRun = False
         row = sh.max_row + 1
         col = 1
-        
+        pasteRange(1, 1, len(fields), 1, sh, [fields])
+        boldHeader(sh, len(fields))
         for field in fields:
             cell = sh.cell(row = row, column = col)
-            val = document[field]
+            try:
+                val = document[field]
+            except KeyError:
+                continue
             if(field == "phone" or field == "emergencyPhone"):
                 try:
                     val = float(val)
@@ -66,8 +61,8 @@ def iterateCursor(firstRun, cursor, sh, wb, sheets):
                     sersh = wb[key]
                 except:
                     sersh = wb.create_sheet(key)
-                    pasteRange(1, 1, 11, 1, sersh, [fields])
-                    boldHeader(sersh)
+                    pasteRange(1, 1, len(fields), 1, sersh, [fields])
+                    boldHeader(sersh, len(fields))
                 row = sersh.max_row + 1
                 pasteRange(1, row, 11, row, sersh, copied)
     return fields
@@ -86,10 +81,7 @@ def main(dataType):
     client = MongoClient(link)
     print("got it")
     db = client['donationsDB']
-    if(dataType == "all"):
-        collection = db["donations"]
-    else:
-        collection = db[dataType]
+    collection = db[dataType]
     cursor = collection.find({})
 
     wb = Workbook()
@@ -110,20 +102,28 @@ def main(dataType):
 
     sh = wb.active
     sh.title = "Signups_{}".format(the_date)
-    iterateCursor(True, cursor, sh, wb, sheets)
-    if(dataType == "all"):
-        collection = db["registers"]
-        cursor = collection.find({})
-        iterateCursor(False, cursor, sh, wb, sheets)
+
+    fields = [
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "emergencyFirstName",
+        "emergencyLastName",
+        "emergencyPhone",
+        "services",
+        "times",
+        "languages",
+        "notes",
+        "idaraMember",
+        "idaraVisits",
+        "faith"    ]
+    iterateCursor(fields, cursor, sh, wb, sheets)
     out = io.BytesIO()
     wb.save(out)
     out.seek(0)
     if(dataType == "donations"):
         dataType = "Idara"
-    elif(dataType == "registers"):
-        dataType = "Community"
-    elif(dataType == "all"):
-        dataType = "All"
     file_name = "{}_{}_export.xlsx".format(the_date, dataType)
     return send_file(out, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', download_name=file_name, as_attachment=True)
 
