@@ -19,8 +19,7 @@ ReactDOM.render(
       <CSSReset />
       <HashRouter>
         <Routes>
-          <Route path="/signup" element={<HookForm version={"signup"}/>} />
-          <Route path="/register" element={<HookForm version={"register"}/>} />
+          <Route path="/" element={<HookForm version={"signup"}/>} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </HashRouter>

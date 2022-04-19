@@ -12,6 +12,10 @@ const donationsSchema = {
   times: String,
   languages: String,
   notes: String,
+  idaraMember: String,
+  idaraVisits: String,
+  faith: String,
+  agreement: Boolean
 };
 
 const Donation = mongoose.model("Donation", donationsSchema);

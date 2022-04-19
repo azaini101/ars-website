@@ -22,6 +22,9 @@ const columns = [
   { name: "times", defaultWidth: 500, header: "Times" },
   { name: "languages", defaultWidth: 500, header: "Languages" },
   { name: "notes", defaultWidth: 250, header: "Notes" },
+  { name: "idaraMember", defaultWidth: 250, header: "Idara Member?" },
+  { name: "idaraVisits", defaultWidth: 250, header: "Idara Visits" },
+  { name: "faith", defaultWidth: 250, header: "Faith" },
 ];
 
 const filterValue = [
@@ -66,17 +69,6 @@ const DonationsTable = ({ data }) => {
     switchTableView(!tableview);
   };
 
-  const changeDataView = () => {
-    if (dataType === false) {
-      switchDataView(registers);
-      switchDataType(true);
-    }
-    else if (dataType === true) {
-      switchDataView(donations);
-      switchDataType(false);
-    }
-
-  };
 
   donations.forEach(donation => {
     delete donation._id
@@ -104,16 +96,7 @@ const DonationsTable = ({ data }) => {
         <Button onClick={changeTableView}>
           Change View
         </Button>
-        <Button onClick={changeDataView}>
-          Check Other Database
-        </Button>
         <Button onClick={() => exportExcel("donations")}>
-          Export Idara Data
-        </Button>
-        <Button onClick={() => exportExcel("registers")}>
-          Export Register Data
-        </Button>
-        <Button onClick={() => exportExcel("all")}>
           Export All Data
         </Button>
       </Stack>

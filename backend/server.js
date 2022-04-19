@@ -21,15 +21,14 @@ mongoose.connection.on("connected", () => {
 
 app.post("/submitForm:version", async (req, res) => {
   console.log("/submitForm");
-  const version = req.params.version
-  console.log(version)
+  const version = req.params.version;
+  console.log(version);
   var donation;
   var obj;
-  if(version === "signup"){
+  if (version === "signup") {
     donation = new Models.Donation(req.body);
     obj = Models.Donation;
-  }
-  else if(version === "register"){
+  } else if (version === "register") {
     donation = new Models.Register(req.body);
     obj = Models.Register;
   }
@@ -46,6 +45,10 @@ app.post("/submitForm:version", async (req, res) => {
       times: donation.times,
       languages: donation.languages,
       notes: donation.notes,
+      idaraMember: donation.idaraMember,
+      idaraVisits: donation.idaraVisits,
+      faith: donation.faith,
+      agreement: donation.agreement,
     },
     {
       firstName: donation.firstName,
@@ -59,11 +62,15 @@ app.post("/submitForm:version", async (req, res) => {
       times: donation.times,
       languages: donation.languages,
       notes: donation.notes,
-
+      idaraMember: donation.idaraMember,
+      idaraVisits: donation.idaraVisits,
+      faith: donation.faith,
+      agreement: donation.agreement,
     },
     {
-      upsert: true
-    })
+      upsert: true,
+    }
+  );
   res.sendStatus(200);
 });
 
@@ -81,7 +88,7 @@ app.get("/donations", async (req, res) => {
     if (isPasswordValid) {
       const donations = await Models.Donation.find({});
       const registers = await Models.Register.find({});
-      return res.send({donations, registers});
+      return res.send({ donations, registers });
     }
   }
 
