@@ -4,9 +4,10 @@ const cors = require("cors");
 const argon2 = require("argon2");
 const mongoose = require("mongoose");
 const Models = require("./model/donationModel");
+const Workshop = require("./model/workshopModel");
 const User = require("./model/userModel");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 const app = express();
 
@@ -66,6 +67,36 @@ app.post("/submitForm/:version", async (req, res) => {
       idaraVisits: donation.idaraVisits,
       faith: donation.faith,
       agreement: donation.agreement,
+    },
+    {
+      upsert: true,
+    }
+  );
+  res.sendStatus(200);
+});
+
+app.post("/submitWorkshopForm", async (req, res) => {
+  console.log("/submitWorkshopForm");
+  const version = req.params.version;
+  console.log(version);
+  let donation = new Workshop(req.body);
+  let obj = Workshop;
+  await obj.findOneAndUpdate(
+    {
+      firstName: donation.firstName,
+      lastName: donation.lastName,
+      email: donation.email,
+      phone: donation.phone,
+    },
+    {
+      firstName: donation.firstName,
+      lastName: donation.lastName,
+      email: donation.email,
+      phone: donation.phone,
+      accompanying: donation.accompanying,
+      language: donation.language,
+      notes: donation.notes,
+      agreement: donation.agreement
     },
     {
       upsert: true,

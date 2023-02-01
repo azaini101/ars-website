@@ -26,6 +26,21 @@ const languageOptions = [
   return { id: x, value: x, label: x };
 });
 
+const accompanyingOptions = [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+].map((x) => {
+  return { id: x, value: x, label: x };
+});
+
 const timeOptions = [
   "Monday - Friday 9 AM - 5 PM",
   "Monday - Friday After 5 PM",
@@ -72,4 +87,5 @@ export {
   idaraOptions,
   yesNoOptions,
   faithOptions,
+  accompanyingOptions
 };
