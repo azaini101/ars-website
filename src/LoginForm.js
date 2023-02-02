@@ -4,7 +4,7 @@ import { Buffer } from "buffer";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
+const LoginForm = ({ setDonations, setWorkshoppers, setLoggedInSuccessfully }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,13 +18,21 @@ const LoginForm = ({ setDonations, setLoggedInSuccessfully }) => {
     headers.set("Content-Type", "application/json");
     headers.set("Accept", "application/json");
 
-    const response = await fetch(`${BACKEND_URL}/donations`, {
+    const donationsRes = await fetch(`${BACKEND_URL}/donations`, {
       method: "GET",
       headers: headers,
     });
-    if (response.ok) {
-      const data = await response.json();
+
+    const workshopRes = await fetch(`${BACKEND_URL}/workshoppers`, {
+      method: "GET",
+      headers: headers,
+    });
+
+    if (donationsRes.ok && workshopRes.ok) {
+      let data = await donationsRes.json();
       setDonations(data);
+      data = await workshopRes.json();
+      setWorkshoppers(data);
       setLoggedInSuccessfully(true);
     }
     else {

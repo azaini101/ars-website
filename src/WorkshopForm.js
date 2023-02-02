@@ -21,7 +21,7 @@ import { languageOptions, accompanyingOptions } from "./docs/data";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function HookForm({ version }) {
-  const [languages, setLanguages] = useState("");
+  const [language, setLanguages] = useState("");
   const [accompanying, setAccompanying] = useState("");
   const [idaraMember, setIdaraMember] = useState("");
   const [idaraVisits, setIdaraVisits] = useState("");
@@ -52,7 +52,7 @@ export default function HookForm({ version }) {
       );
     data = {
       ...data,
-      languages: languages.value,
+      language: language.value,
       accompanying: accompanying.value,
     };
     console.log(data)
@@ -154,14 +154,14 @@ export default function HookForm({ version }) {
           </FormControl>
 
           <FormControl isRequired>
-          <FormLabel htmlFor="languages">
+          <FormLabel htmlFor="language">
             Please select your preferred language:
           </FormLabel>
           <Select
             onChange={(e) => {
               setLanguages(e);
             }}
-            id="languages"
+            id="language"
             options={languageOptions}
             closeMenuOnSelect={true}
           />
@@ -206,7 +206,7 @@ export default function HookForm({ version }) {
         <Button
           colorScheme="teal"
           isLoading={isSubmitting}
-          isDisabled={languages.length === 0 || agreement === false || accompanying.length === 0}
+          isDisabled={language.length === 0 || agreement === false || accompanying.length === 0}
           type="submit"
         >
           Submit

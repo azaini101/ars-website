@@ -9,7 +9,7 @@ import { Heading, Stack, Button, useBreakpointValue } from "@chakra-ui/react";
 const BACKEND_URL = process.env.REACT_APP_PYTHON_BACKEND_URL;
 const gridStyle = { height: 1100 };
 
-const columns = [
+const donationsColumns = [
   { name: "_id", defaultVisible: false },
   { name: "firstName", defaultWidth: 250, header: "First Name" },
   { name: "lastName", defaultWidth: 250, header: "Last Name" },
@@ -35,7 +35,9 @@ const columns = [
   { name: "faith", defaultWidth: 250, header: "Faith" },
 ];
 
-const filterValue = [
+
+
+const donationsFilterValue = [
   { name: "firstName", operator: "startsWith", type: "string", value: "" },
   { name: "lastName", operator: "startsWith", type: "string", value: "" },
   { name: "email", operator: "startsWith", type: "string", value: "" },
@@ -56,16 +58,29 @@ const filterValue = [
   { name: "services", operator: "contains", type: "string", value: "" },
   { name: "times", operator: "contains", type: "string", value: "" },
   { name: "languages", operator: "contains", type: "string", value: "" },
+  { name: "language", operator: "startsWith", type: "string", value: ""},
   { name: "notes", operator: "contains", type: "string", value: "" },
 ];
 
-const DonationsTable = ({ data }) => {
-  const donations = data.donations.map((e) => {
+const workshoppersColumns = [
+  { name: "_id", defaultVisible: false },
+  { name: "firstName", defaultWidth: 250, header: "First Name" },
+  { name: "lastName", defaultWidth: 250, header: "Last Name" },
+  { name: "email", defaultWidth: 250, header: "Email" },
+  { name: "phone", defaultWidth: 250, header: "Phone" },
+  { name: "language", defaultWidth: 250, header: "Preferred Language" },
+  { name: "accompanying", defaultWidth: 250, header: "Accompanying" },
+  { name: "notes", defaultWidth: 250, header: "Notes" }
+];
+
+
+const DonationsTable = ({ donationsData, workshoppersData }) => {
+  const donations = donationsData.donations.map((e) => {
     delete e._id;
     delete e.__v;
     return e;
   });
-  const registers = data.registers.map((e) => {
+  const workshoppers = workshoppersData.workshoppers.map((e) => {
     delete e._id;
     delete e.__v;
     return e;
@@ -75,6 +90,8 @@ const DonationsTable = ({ data }) => {
 
   const [dataRows, setDataRows] = useState({});
   const [dataType, setDataType] = useState(true);
+  const [columns, setColumns] = useState(donationsColumns);
+  const [filterValues, setFilterValues] = useState(donationsFilterValue);
 
   const exportExcel = (dataType) => {
     window.open(`${BACKEND_URL}/getData?dataType=${dataType}`);
@@ -84,21 +101,30 @@ const DonationsTable = ({ data }) => {
     setTableView(!tableView);
   };
 
+  const changeDataView = () => {
+    setDataType(!dataType);
+  };
+
   useEffect(() => {
     if (dataType === false) {
-      setDataRows(registers);
+      setDataRows(workshoppers);
+      setColumns(workshoppersColumns)
     } else if (dataType === true) {
       setDataRows(donations);
+      setColumns(donationsColumns)
     }
   }, [dataType]);
 
   return (
     <div>
       <Heading textAlign={"center"} pt={6}>
-        {dataType ? "Idara Dashboard" : "Register Dashboard"}
+        {dataType ? "Idara Dashboard" : "Workshop Dashboard"}
       </Heading>
       <br></br>
       <Stack justify={"center"} p={1} direction={useBreakpointValue({ base: 'column', md: 'row' })}>
+        <Button onClick={changeDataView}>
+          {dataType ? "View Workshop Data" : "View Volunteer Data"}
+        </Button>
         <Button onClick={changeTableView}>
           Change View
         </Button>
@@ -118,7 +144,7 @@ const DonationsTable = ({ data }) => {
           style={gridStyle}
           columns={columns}
           dataSource={dataRows}
-          defaultFilterValue={filterValue}
+          defaultFilterValue={donationsFilterValue}
         />
       )}
     </div>

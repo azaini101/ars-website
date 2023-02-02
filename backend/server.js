@@ -106,7 +106,7 @@ app.post("/submitWorkshopForm", async (req, res) => {
 });
 
 app.get("/donations", async (req, res) => {
-  console.log("/donations");
+  // console.log("/donations");
 
   const base64Credentials = req.headers.authorization.split(" ")[1];
   const credentials = Buffer.from(base64Credentials, "base64").toString("utf8");
@@ -120,6 +120,26 @@ app.get("/donations", async (req, res) => {
       const donations = await Models.Donation.find({});
       const registers = await Models.Register.find({});
       return res.send({ donations, registers });
+    }
+  }
+
+  res.send(400);
+});
+
+app.get("/workshoppers", async (req, res) => {
+  // console.log("/workshoppers");
+
+  const base64Credentials = req.headers.authorization.split(" ")[1];
+  const credentials = Buffer.from(base64Credentials, "base64").toString("utf8");
+  const [username, password] = credentials.split(":");
+
+  const user = await User.findOne({ username: username }).exec();
+
+  if (user) {
+    const isPasswordValid = await argon2.verify(user.password, password);
+    if (isPasswordValid) {
+      const workshoppers = await Workshop.find({});
+      return res.send({ workshoppers });
     }
   }
 

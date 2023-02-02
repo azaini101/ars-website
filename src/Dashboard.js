@@ -3,15 +3,17 @@ import DonationsTable from "./DonationsTable";
 import LoginForm from "./LoginForm";
 
 const Dashboard = () => {
-  const [data, setDonations] = useState([]);
+  const [donations, setDonations] = useState([]);
+  const [workshoppers, setWorkshoppers] = useState([]);
   const [loggedInSuccessfully, setLoggedInSuccessfully] = useState(false);
 
   return (
     <>
       {loggedInSuccessfully ? (
-        <DonationsTable data={data} />
+        <DonationsTable donationsData={donations} workshoppersData={workshoppers} />
       ) : (
         <LoginForm
+          setWorkshoppers={setWorkshoppers}
           setDonations={setDonations}
           setLoggedInSuccessfully={setLoggedInSuccessfully}
         />
